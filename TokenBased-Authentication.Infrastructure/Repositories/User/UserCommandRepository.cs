@@ -1,6 +1,6 @@
 ﻿using TokenBased_Authentication.Domain.IRepositories.User;
 using TokenBased_Authentication.Infrastructure.Repositories;
-namespace ClinicManagement.Infrastructure.Repositories.User;
+namespace TokenBased_Authentication.Infrastructure.Repositories.User;
 
 public class UserCommandRepository : CommandGenericRepository<TokenBased_Authentication.Domain.Entities.Account.User>, IUserCommandRepository
 {

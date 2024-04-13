@@ -1,36 +1,53 @@
+using Microsoft.EntityFrameworkCore;
+using TokenBased_Authentication.Infrastructure.ApplicationDbContext;
+namespace TokenBased_Authentication.Presentation;
 
-namespace TokenBased_Authentication.Presentation
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        #region Services
+
+        var builder = WebApplication.CreateBuilder(args);
+
+        #region MVC
+
+        builder.Services.AddControllers();
+
+        #endregion
+
+        #region Add DBContext
+
+        builder.Services.AddDbContext<TokenBased_AuthenticationDbContext>(options =>
         {
-            var builder = WebApplication.CreateBuilder(args);
+            options.UseSqlServer(builder.Configuration.GetConnectionString("TokenBased_AuthenticationDbContextConnection"));
+        });
 
-            // Add services to the container.
+        #endregion
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
+        #endregion
 
 
-            app.MapControllers();
 
-            app.Run();
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        app.Run();
     }
 }
