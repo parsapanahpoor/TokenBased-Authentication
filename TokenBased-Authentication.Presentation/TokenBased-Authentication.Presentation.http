@@ -1,0 +1,6 @@
+@TokenBased_Authentication.Presentation_HostAddress = http://localhost:5198
+
+GET {{TokenBased_Authentication.Presentation_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
