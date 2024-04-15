@@ -37,11 +37,11 @@ public class AccountController : SiteBaseController
         var res = await Mediator.Send(query, cancellationToken);
 
         //If Got any problem with sms code
-        if (res == null || res.IsSuccess == false) return Ok(JsonResponseStatus.Success(new LoginRegisterResultDTO()
+        if (res == null || res.IsSuccess == false) return Ok(JsonResponseStatus.Success(new 
         {
-            Message = res.Message,
             IsSuccess = false
-        }));
+        } , 
+        res.Message));
 
         //If sms code was ok , then user will login or register
         var token = await CreateToken(res.User, cancellationToken);
@@ -58,14 +58,14 @@ public class AccountController : SiteBaseController
     #region Create Token And Refresh Token
 
     private async Task<LoginDataDto> CreateToken(User user,
-                                           CancellationToken cancellationToken)
+                                                 CancellationToken cancellationToken)
     {
         SecurityHelper securityHelper = new SecurityHelper();
 
         var claims = new List<Claim>
                 {
-                    new (ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new (ClaimTypes.MobilePhone, user.Mobile),
+                    new Claim("NameIdentifier", user.Id.ToString()),
+                    new Claim("MobilePhone", user.Mobile),
                     new Claim ("Name",  user?.Username ?? ""),
                 };
 

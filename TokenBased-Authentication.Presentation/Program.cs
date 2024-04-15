@@ -8,6 +8,11 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Text;
 using TokenBased_Authentication.Infrastructure.ApplicationDbContext;
+using TokenBased_Authentication.Application;
+using TokenBased_Authentication.Domain.IRepositories.User;
+using TokenBased_Authentication.Infrastructure.Repositories.User;
+using TokenBased_Authentication.Application.Common.IUnitOfWork;
+using TokenBased_Authentication.Infrastructure.UnitOfWork;
 namespace TokenBased_Authentication.Presentation;
 
 public class Program
@@ -21,6 +26,19 @@ public class Program
         #region MVC
 
         builder.Services.AddControllers();
+        {
+            builder.Services.RegisterApplicationServices();
+        }
+
+        #endregion
+
+        #region Repositories
+
+        //User
+        builder.Services.AddScoped<IUserCommandRepository, UserCommandRepository>();
+        builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
+
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         #endregion
 
