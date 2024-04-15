@@ -94,25 +94,31 @@ public class Program
 
         #endregion
 
-        #region Authentication
+        #region  Authentication
 
+        //Add and Set JWT for Authentication of this Project
         builder.Services.AddAuthentication(Options =>
         {
             Options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
             Options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             Options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         })
-            .AddJwtBearer(configureOptions =>
+        //JWT Configurations
+        .AddJwtBearer(configureOptions =>
         {
-            //configureOptions.TokenValidationParameters = new TokenValidationParameters()
-            //{
-            //    ValidIssuer = builder.Configuration["JWtConfig:issuer"],
-            //    ValidAudience = builder.Configuration["JWtConfig:audience"],
-            //    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWtConfig:Key"])),
-            //    ValidateIssuerSigningKey = true,
-            //    ValidateLifetime = true,
-            //};
-            configureOptions.SaveToken = true; // HttpContext.GetTokenAsunc();
+            //با قوانین زیر توکن هارا ولیدیت میکند-اطلاعاتی که در کنترلر وارد شده است احراز میگردد
+            configureOptions.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidIssuer = builder.Configuration["JWtConfig:issuer"],
+                ValidAudience = builder.Configuration["JWtConfig:audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWtConfig:Key"])),
+                ValidateIssuerSigningKey = true,//امضای توکن را چک میکند
+                ValidateLifetime = true,//توکن هایی که تایم آن ها گذشته است را رد میکند
+            };
+
+            configureOptions.SaveToken = true; // HttpContext.GetTokenAsunc(); با این دستور میتوانید هرجایی توکن رو بدست بیاورید
+
+            //لیست ایونت هایی که میتوانید از آن ها استفاده کنید
             configureOptions.Events = new JwtBearerEvents
             {
                 OnAuthenticationFailed = context => { return Task.CompletedTask; },

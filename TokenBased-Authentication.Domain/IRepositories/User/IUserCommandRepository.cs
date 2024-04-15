@@ -10,5 +10,9 @@ public interface IUserCommandRepository
 
     void Update(Domain.Entities.Account.User user);
 
+    void Update_SMSCode(SmsCode smsCode);
+
+    Task Add_UserToken(UserToken userToken, CancellationToken cancellationToken);
+
     #endregion
 }

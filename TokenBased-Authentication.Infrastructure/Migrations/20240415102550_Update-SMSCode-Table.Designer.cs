@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TokenBased_Authentication.Infrastructure.ApplicationDbContext;
 
@@ -11,9 +12,11 @@ using TokenBased_Authentication.Infrastructure.ApplicationDbContext;
 namespace TokenBased_Authentication.Infrastructure.Migrations
 {
     [DbContext(typeof(TokenBased_AuthenticationDbContext))]
-    partial class TokenBased_AuthenticationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240415102550_Update-SMSCode-Table")]
+    partial class UpdateSMSCodeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

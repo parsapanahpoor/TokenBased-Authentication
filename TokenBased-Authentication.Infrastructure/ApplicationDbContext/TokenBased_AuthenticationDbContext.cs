@@ -24,6 +24,10 @@ public class TokenBased_AuthenticationDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
 
+    public DbSet<SmsCode> SmsCodes { get; set; }
+
+    public DbSet<UserToken> UserTokens { get; set; }
+
     #endregion
 
     #endregion

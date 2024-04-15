@@ -1,5 +1,6 @@
 ﻿using TokenBased_Authentication.Domain.IRepositories.User;
 using Microsoft.EntityFrameworkCore;
+using TokenBased_Authentication.Domain.Entities.Account;
 namespace TokenBased_Authentication.Infrastructure.Repositories.User;
 
 public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Account.User>, IUserQueryRepository
@@ -17,6 +18,15 @@ public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Accoun
 
     #region General Methods
 
+    public async Task<SmsCode?> GetSMSCode_ByMobileAndCode(string mobile, string code)
+    {
+        return await _context.SmsCodes
+                             .AsNoTracking()
+                             .FirstOrDefaultAsync(p => !p.IsDelete &&
+                                                  p.PhoneNumber == mobile &&
+                                                  p.Code == code);
+    }
+
     public async Task<bool> IsMobileExist(string mobile, CancellationToken cancellation)
     {
         return await _context.Users
@@ -32,15 +42,6 @@ public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Accoun
                              .AnyAsync(p => !p.IsDelete &&
                                        p.Mobile == mobile &&
                                        p.IsActive);
-    }
-
-    public async Task<bool> IsPasswordValid(string mobile, string password, CancellationToken cancellation)
-    {
-        return await _context.Users
-                             .AsNoTracking()
-                             .AnyAsync(p => !p.IsDelete &&
-                                       p.Mobile == mobile &&
-                                       p.Password == password);
     }
 
     public async Task<Domain.Entities.Account.User?> GetUserByMobile(string mobile , CancellationToken cancellation)

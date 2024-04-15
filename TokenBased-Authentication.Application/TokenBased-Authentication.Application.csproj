@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\" />
+    <ProjectReference Include="..\TokenBased-Authentication.Domain\TokenBased-Authentication.Domain.csproj" />
   </ItemGroup>
 
 </Project>
