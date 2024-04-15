@@ -31,6 +31,7 @@ public class AccountController : SiteBaseController
 
     #region Send SMS Code 
 
+    [HttpPost("SendSMSCode")]
     public async Task<IActionResult> SendSMSCode(string phoneNumber , 
                                                  CancellationToken cancellationToken)
     {
