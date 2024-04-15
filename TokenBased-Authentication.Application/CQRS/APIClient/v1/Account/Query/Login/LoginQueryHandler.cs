@@ -32,10 +32,13 @@ public record LoginQueryHandler : IRequestHandler<LoginQuery, SMSCodeInsertedRes
         if (smsCode == null) return new SMSCodeInsertedResultDTO { IsSuccess = false, Message = "کد وارد شده صحیح نیست!", };
 
         //Token was used and count of usage was completed
-        if (smsCode.Used == true)return new SMSCodeInsertedResultDTO { IsSuccess = false,Message = "کد وارد شده صحیح نیست!"};
+        if (smsCode.Used == true) return new SMSCodeInsertedResultDTO { IsSuccess = false, Message = "کدفعال سازی منقضی شده است." };
 
         //Update SMS Code Usage
         smsCode.RequestCount++;
+
+        //Expire sms code after 3 times usage 
+        if (smsCode.RequestCount == 3) smsCode.Used = true;
 
         _userCommandRepository.Update_SMSCode(smsCode);
         await _unitOfWork.SaveChangesAsync();
