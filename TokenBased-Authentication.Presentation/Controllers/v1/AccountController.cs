@@ -9,6 +9,7 @@ using TokenBased_Authentication.Domain.DTO.APIClient.Account;
 using TokenBased_Authentication.Domain.Entities.Account;
 using TokenBased_Authentication.Application.Utilities.Security;
 using TokenBased_Authentication.Application.CQRS.APIClient.v1.Account.Command.CreateToken;
+using TokenBased_Authentication.Application.CQRS.APIClient.v1.Account.Command.SendSMSCode;
 
 namespace TokenBased_Authentication.Presentation.Controllers.v1;
 
@@ -28,9 +29,25 @@ public class AccountController : SiteBaseController
 
     #endregion
 
+    #region Send SMS Code 
+
+    public async Task<IActionResult> SendSMSCode(string phoneNumber , 
+                                                 CancellationToken cancellationToken)
+    {
+        var res = await Mediator.Send(new SendSMSCodeCommand()
+        {
+            PhoneNumber = phoneNumber,
+        } , 
+        cancellationToken);
+
+        return Ok(JsonResponseStatus.Success(res,"کدفعال سازی ارسال شده است."));
+    }
+
+    #endregion
+
     #region Register Or Login 
 
-    [HttpPost]
+    [HttpPost("Login_Register")]
     public async Task<IActionResult> Login_Register([FromBody] LoginQuery query,
                                                     CancellationToken cancellationToken)
     {

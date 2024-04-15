@@ -25,4 +25,9 @@ public class UserCommandRepository : CommandGenericRepository<TokenBased_Authent
     {
         await _context.UserTokens.AddAsync(userToken);
     }
+
+    public async Task Add_SMSCode(SmsCode smsCode , CancellationToken cancellationToken)
+    {
+        await _context.SmsCodes.AddAsync(smsCode);
+    }
 }
