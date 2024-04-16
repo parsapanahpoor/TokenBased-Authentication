@@ -16,5 +16,9 @@ public interface IUserCommandRepository
 
     Task Add_SMSCode(SmsCode smsCode, CancellationToken cancellationToken);
 
+    void Delete_UserToken(UserToken userToken);
+
+    void DeleteRange_UserTokens(List<UserToken> userTokens);
+
     #endregion
 }

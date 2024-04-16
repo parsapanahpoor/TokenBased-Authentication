@@ -6,6 +6,14 @@ public interface IUserQueryRepository
 {
     #region General Methods
 
+    Task<List<UserToken>> GetList_UserToken_ByUserId(ulong userId,
+                                                     CancellationToken cancellationToken);
+
+    Task<UserToken?> GetUserToken_ByUserTokenId(ulong userTokenId,
+                                                CancellationToken cancellation);
+
+    Task<UserToken?> Get_UserToken_ByRefreshToken(string refreshToken);
+
     Task<SmsCode?> GetSMSCode_ByMobileAndCode(string mobile, string code);
 
     Task<bool> IsMobileExist(string mobile, CancellationToken cancellation);
@@ -20,6 +28,7 @@ public interface IUserQueryRepository
 
     #region Site Side
 
+    Task<bool> CheckIsExist_UserToken(string hashedToken);
 
     #endregion
 }

@@ -30,17 +30,15 @@ public record CreateTokenCommandHandler : IRequestHandler<CreateTokenCommand, Lo
 
     public async Task<LoginDataDto> Handle(CreateTokenCommand request, CancellationToken cancellationToken)
     {
-        SecurityHelper securityHelper = new SecurityHelper();
-
         var userToken = new UserToken()
         {
             CreateDate = DateTime.Now,
             LastestSignInPlatformName = request.LastestSignInPlatformName,
-            RefreshToken = securityHelper.Getsha256Hash(request.RefreshToken),
+            RefreshToken = request.RefreshToken.Getsha256Hash(),
             IsDelete = false,
             RefreshTokenExpireTime = request.RefreshTokenExpireTime,
             TokenExpireTime = request.TokenExpireTime,
-            TokenHash = securityHelper.Getsha256Hash(request.TokenHash),
+            TokenHash = request.TokenHash.Getsha256Hash(),
             UserId = request.UserId
         };
 

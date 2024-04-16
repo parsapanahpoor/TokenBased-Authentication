@@ -36,9 +36,7 @@ public record LoginQueryHandler : IRequestHandler<LoginQuery, SMSCodeInsertedRes
 
         //Update SMS Code Usage
         smsCode.RequestCount++;
-
-        //Expire sms code after 3 times usage 
-        if (smsCode.RequestCount == 3) smsCode.Used = true;
+        smsCode.Used = true;
 
         _userCommandRepository.Update_SMSCode(smsCode);
         await _unitOfWork.SaveChangesAsync();

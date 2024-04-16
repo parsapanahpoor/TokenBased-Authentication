@@ -21,13 +21,23 @@ public class UserCommandRepository : CommandGenericRepository<TokenBased_Authent
         _context.SmsCodes.Update(smsCode);
     }
 
-    public async Task Add_UserToken(UserToken userToken , CancellationToken cancellationToken)
+    public async Task Add_UserToken(UserToken userToken, CancellationToken cancellationToken)
     {
         await _context.UserTokens.AddAsync(userToken);
     }
 
-    public async Task Add_SMSCode(SmsCode smsCode , CancellationToken cancellationToken)
+    public async Task Add_SMSCode(SmsCode smsCode, CancellationToken cancellationToken)
     {
         await _context.SmsCodes.AddAsync(smsCode);
+    }
+
+    public void Delete_UserToken(UserToken userToken)
+    {
+        _context.UserTokens.Remove(userToken);
+    }
+
+    public void DeleteRange_UserTokens(List<UserToken> userTokens)
+    {
+        _context.UserTokens.RemoveRange(userTokens);
     }
 }

@@ -2,11 +2,9 @@
 using System.Text;
 namespace TokenBased_Authentication.Application.Utilities.Security;
 
-public class SecurityHelper
+public static class SecurityHelper
 {
-    private readonly RandomNumberGenerator random = RandomNumberGenerator.Create();
-
-    public string Getsha256Hash(string value)
+    public static string Getsha256Hash(this string value)
     {
         var algoritm = new SHA256CryptoServiceProvider();
         var byteValue = Encoding.UTF8.GetBytes(value);

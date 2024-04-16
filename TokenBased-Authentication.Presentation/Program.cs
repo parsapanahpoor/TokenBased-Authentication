@@ -13,6 +13,7 @@ using TokenBased_Authentication.Domain.IRepositories.User;
 using TokenBased_Authentication.Infrastructure.Repositories.User;
 using TokenBased_Authentication.Application.Common.IUnitOfWork;
 using TokenBased_Authentication.Infrastructure.UnitOfWork;
+using TokenBased_Authentication.Presentation.TokenValidator;
 namespace TokenBased_Authentication.Presentation;
 
 public class Program
@@ -38,7 +39,11 @@ public class Program
         builder.Services.AddScoped<IUserCommandRepository, UserCommandRepository>();
         builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
 
+        //Unit Of Work
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        //Token Validator
+        builder.Services.AddScoped<ITokenValidator, TokenValidate>();
 
         #endregion
 
@@ -140,20 +145,14 @@ public class Program
             configureOptions.Events = new JwtBearerEvents
             {
                 OnAuthenticationFailed = context => { return Task.CompletedTask; },
+                
+                OnTokenValidated =  context => { return Task.CompletedTask; },
 
-                OnChallenge = context => { return Task.CompletedTask; },
+                OnChallenge =  context => { return Task.CompletedTask; },
 
                 OnMessageReceived = context => { return Task.CompletedTask; },
 
                 OnForbidden = context => { return Task.CompletedTask; },
-
-                OnTokenValidated = context =>
-                {
-                    //var tokenValidatorService = context.HttpContext.RequestServices.GetRequiredService<ITokenValidator>();
-                    //return tokenValidatorService.Execute(context);
-
-                    return Task.CompletedTask;
-                },
             };
 
         });

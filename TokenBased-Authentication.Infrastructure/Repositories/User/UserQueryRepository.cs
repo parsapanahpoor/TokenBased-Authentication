@@ -1,6 +1,7 @@
 ﻿using TokenBased_Authentication.Domain.IRepositories.User;
 using Microsoft.EntityFrameworkCore;
 using TokenBased_Authentication.Domain.Entities.Account;
+using TokenBased_Authentication.Application.Utilities.Security;
 namespace TokenBased_Authentication.Infrastructure.Repositories.User;
 
 public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Account.User>, IUserQueryRepository
@@ -17,6 +18,33 @@ public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Accoun
     #endregion
 
     #region General Methods
+
+    public async Task<List<UserToken>> GetList_UserToken_ByUserId(ulong userId,
+                                                                  CancellationToken cancellationToken)
+    {
+        return await _context.UserTokens
+                             .AsNoTracking()
+                             .Where(p => !p.IsDelete &&
+                                    p.UserId == userId)
+                             .ToListAsync();
+    }
+
+    public async Task<UserToken?> GetUserToken_ByUserTokenId(ulong userTokenId,
+                                                            CancellationToken cancellation)
+    {
+        return await _context.UserTokens
+                             .AsNoTracking()
+                             .FirstOrDefaultAsync(p => !p.IsDelete &&
+                                                  p.Id == userTokenId);
+    }
+
+    public async Task<UserToken?> Get_UserToken_ByRefreshToken(string refreshToken)
+    {
+        return await _context.UserTokens
+                             .AsNoTracking()
+                             .FirstOrDefaultAsync(p => !p.IsDelete &&
+                                                  p.RefreshToken == refreshToken);
+    }
 
     public async Task<SmsCode?> GetSMSCode_ByMobileAndCode(string mobile, string code)
     {
@@ -37,14 +65,14 @@ public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Accoun
 
     public async Task<bool> IsUserActive(string mobile, CancellationToken cancellation)
     {
-        return await _context.Users 
-                             .AsNoTracking() 
+        return await _context.Users
+                             .AsNoTracking()
                              .AnyAsync(p => !p.IsDelete &&
                                        p.Mobile == mobile &&
                                        p.IsActive);
     }
 
-    public async Task<Domain.Entities.Account.User?> GetUserByMobile(string mobile , CancellationToken cancellation)
+    public async Task<Domain.Entities.Account.User?> GetUserByMobile(string mobile, CancellationToken cancellation)
     {
         return await _context.Users
                              .AsNoTracking()
@@ -56,7 +84,16 @@ public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Accoun
 
     #region Site Side
 
- 
+    public async Task<bool> CheckIsExist_UserToken(string hashedToken)
+    {
+        string tokenHash = hashedToken.Getsha256Hash();
+
+        var userToken = _context.UserTokens
+                                .Where(p => p.TokenHash == tokenHash)
+                                .FirstOrDefault();
+
+        return userToken == null ? false : true;
+    }
 
     #endregion
 }
