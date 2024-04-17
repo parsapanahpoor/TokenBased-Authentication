@@ -8,6 +8,8 @@ public sealed class User : BaseEntities<ulong>
 
     public string Mobile { get; set; }
 
+    public bool IsAdmin { get; set; }
+
     public bool IsActive { get; set; }
 
     #endregion

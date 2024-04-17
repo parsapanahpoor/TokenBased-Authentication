@@ -2,6 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using TokenBased_Authentication.Domain.Entities.Account;
+using TokenBased_Authentication.Domain.Entities.Role;
 namespace TokenBased_Authentication.Infrastructure.ApplicationDbContext;
 
 #endregion
@@ -27,6 +28,18 @@ public class TokenBased_AuthenticationDbContext : DbContext
     public DbSet<SmsCode> SmsCodes { get; set; }
 
     public DbSet<UserToken> UserTokens { get; set; }
+
+    #endregion
+
+    #region Role 
+
+    public DbSet<Role> Roles { get; set; }
+
+    public DbSet<Permission> Permissions{ get; set; }
+
+    public DbSet<RolePermission> RolePermissions { get; set; }
+
+    public DbSet<UserRole> UserRoles { get; set; }
 
     #endregion
 

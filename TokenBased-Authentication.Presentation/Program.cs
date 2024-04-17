@@ -14,6 +14,7 @@ using TokenBased_Authentication.Infrastructure.Repositories.User;
 using TokenBased_Authentication.Application.Common.IUnitOfWork;
 using TokenBased_Authentication.Infrastructure.UnitOfWork;
 using TokenBased_Authentication.Presentation.TokenValidator;
+using TokenBased_Authentication.IoC;
 namespace TokenBased_Authentication.Presentation;
 
 public class Program
@@ -33,17 +34,12 @@ public class Program
 
         #endregion
 
-        #region Repositories
-
-        //User
-        builder.Services.AddScoped<IUserCommandRepository, UserCommandRepository>();
-        builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
-
-        //Unit Of Work
-        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        #region IoC Container
 
         //Token Validator
         builder.Services.AddScoped<ITokenValidator, TokenValidate>();
+
+        API_DependencyContainer.ConfigureDependencies(builder.Services);
 
         #endregion
 
