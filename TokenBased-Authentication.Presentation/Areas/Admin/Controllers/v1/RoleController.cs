@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TokenBased_Authentication.Application.CQRS.APIClient.v1.AdminSide.Role.Command;
 using TokenBased_Authentication.Application.CQRS.APIClient.v1.AdminSide.Role.Query;
-using TokenBased_Authentication.Application.StaticTools;
 using TokenBased_Authentication.Domain.DTO.AdminSide.Role;
+using TokenBased_Authentication.Presentation.Areas.Admin.ActionFilterAttributes;
 
 namespace TokenBased_Authentication.Presentation.Areas.Admin.Controllers.v1;
 
 [ApiVersion("1")]
 [Route("api/v{version:apiVersion}/Admin/[controller]")]
-[Authorize]
+
 public class RoleController : AdminBaseController
 {
     #region Filter Roles
@@ -55,7 +55,7 @@ public class RoleController : AdminBaseController
 
     #region Edit Role 
 
-    [HttpPost("EditRole")]
+    [HttpPut("EditRole")]
     public async Task<IActionResult> EditRole([FromBody] EditRoleDTO model,
                                               CancellationToken cancellationToken)
     {
@@ -100,7 +100,7 @@ public class RoleController : AdminBaseController
 
     #region Delete Role 
 
-    [HttpGet("DeleteRole")]
+    [HttpDelete("DeleteRole")]
     public async Task<IActionResult> DeleteRole([FromQuery]ulong roleId,
                                                 CancellationToken cancellationToken)
     {

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TokenBased_Authentication.Domain.Entities.Account;
 using TokenBased_Authentication.Application.Utilities.Security;
+using TokenBased_Authentication.Domain.DTO.AdminSide.User;
 namespace TokenBased_Authentication.Infrastructure.Repositories.User;
 
 public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Account.User>, IUserQueryRepository
@@ -93,6 +94,40 @@ public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Accoun
                                 .FirstOrDefault();
 
         return userToken == null ? false : true;
+    }
+
+    #endregion
+
+    #region Admin Side 
+
+    public async Task<FilterUsersDTO> FilterUsers(FilterUsersDTO filter, CancellationToken cancellation)
+    {
+        var query = _context.Users
+                           .AsNoTracking()
+                           .OrderByDescending(p => p.CreateDate)
+                           .AsQueryable();
+
+        #region filter
+
+        if ((!string.IsNullOrEmpty(filter.Mobile)))
+        {
+            query = query.Where(u => u.Mobile.Contains(filter.Mobile));
+        }
+
+        if ((!string.IsNullOrEmpty(filter.Username)))
+        {
+            query = query.Where(u => u.Username.Contains(filter.Username));
+        }
+
+        #endregion
+
+        #region paging
+
+        await filter.Paging(query);
+
+        #endregion
+
+        return filter;
     }
 
     #endregion

@@ -1,4 +1,5 @@
-﻿using TokenBased_Authentication.Domain.Entities.Account;
+﻿using TokenBased_Authentication.Domain.DTO.AdminSide.User;
+using TokenBased_Authentication.Domain.Entities.Account;
 
 namespace TokenBased_Authentication.Domain.IRepositories.User;
 
@@ -29,6 +30,12 @@ public interface IUserQueryRepository
     #region Site Side
 
     Task<bool> CheckIsExist_UserToken(string hashedToken);
+
+    #endregion
+
+    #region Admin Side 
+
+    Task<FilterUsersDTO> FilterUsers(FilterUsersDTO filter, CancellationToken cancellation);
 
     #endregion
 }

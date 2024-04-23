@@ -1,8 +1,10 @@
-﻿namespace TokenBased_Authentication.Domain.Entities.Account;
+﻿namespace TokenBased_Authentication.Domain.DTO.AdminSide.User;
 
-public sealed class User : BaseEntities<ulong>
+public record UserDetailAdminSideDTO
 {
     #region properties
+
+    public ulong UserId { get; set; }
 
     public string Username { get; set; }
 

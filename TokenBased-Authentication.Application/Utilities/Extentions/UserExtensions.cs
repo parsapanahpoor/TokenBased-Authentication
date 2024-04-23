@@ -6,7 +6,7 @@ public static class UserExtensions
 {
     public static ulong GetUserId(this ClaimsPrincipal claimsPrincipal)
     {
-        var data = claimsPrincipal.Claims.SingleOrDefault(s => s.Type == ClaimTypes.NameIdentifier);
+        var data = claimsPrincipal.Claims.FirstOrDefault(s => s.Type == "NameIdentifier");
 
         return ulong.Parse(data.Value);
     }

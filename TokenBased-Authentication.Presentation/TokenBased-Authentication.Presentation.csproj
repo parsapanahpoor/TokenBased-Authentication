@@ -31,4 +31,8 @@
 		<ProjectReference Include="..\TokenBased-Authentication.IoC\TokenBased-Authentication.IoC.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="wwwroot\" />
+	</ItemGroup>
+
 </Project>

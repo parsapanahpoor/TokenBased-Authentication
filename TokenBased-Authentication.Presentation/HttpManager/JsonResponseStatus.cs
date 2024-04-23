@@ -52,5 +52,10 @@ public class JsonResponseStatus
     {
         return new JsonResult(new { status = "NotAuth", data = returnData, message = message });
     }
+
+    public static JsonResult NotPermission()
+    {
+        return new JsonResult(new { status = "NotPermission", message = "عدم دسترسی به بخش خواسته شده ." });
+    }
 }
 
