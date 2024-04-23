@@ -1,4 +1,6 @@
-﻿namespace TokenBased_Authentication.Domain.DTO.AdminSide.User;
+﻿using TokenBased_Authentication.Domain.Entities.Role;
+
+namespace TokenBased_Authentication.Domain.DTO.AdminSide.User;
 
 public record UserDetailAdminSideDTO
 {
@@ -15,6 +17,8 @@ public record UserDetailAdminSideDTO
     public bool IsActive { get; set; }
 
     public string? Avatar { get; set; }
+
+    public List<Entities.Role.Role> UserRoles { get; set; }
 
     #endregion
 }

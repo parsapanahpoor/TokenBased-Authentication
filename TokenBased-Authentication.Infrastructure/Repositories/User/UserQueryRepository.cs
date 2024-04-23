@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TokenBased_Authentication.Domain.Entities.Account;
 using TokenBased_Authentication.Application.Utilities.Security;
 using TokenBased_Authentication.Domain.DTO.AdminSide.User;
+using Microsoft.VisualBasic;
 namespace TokenBased_Authentication.Infrastructure.Repositories.User;
 
 public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Account.User>, IUserQueryRepository
@@ -128,6 +129,24 @@ public class UserQueryRepository : QueryGenericRepository<Domain.Entities.Accoun
         #endregion
 
         return filter;
+    }
+
+    public async Task<List<Domain.Entities.Role.Role>> ListOfUserRoles(ulong userId ,   
+                                                                       CancellationToken cancellationToken)
+    {
+        //Role Ids 
+        var roleIds = _context.UserRoles
+                                    .AsNoTracking()
+                                    .Where(p => !p.IsDelete &&
+                                           p.UserId == userId)
+                                    .AsQueryable();
+
+        var model = from r in roleIds
+                    join role in _context.Roles.Where(p => !p.IsDelete).AsQueryable()
+                    on r.RoleId equals role.Id
+                    select role;
+
+        return await model.ToListAsync();
     }
 
     #endregion

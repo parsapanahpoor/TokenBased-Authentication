@@ -37,5 +37,8 @@ public interface IUserQueryRepository
 
     Task<FilterUsersDTO> FilterUsers(FilterUsersDTO filter, CancellationToken cancellation);
 
+    Task<List<Domain.Entities.Role.Role>> ListOfUserRoles(ulong userId,
+                                                          CancellationToken cancellationToken);
+
     #endregion
 }

@@ -5,7 +5,7 @@ public static class FilePaths
     #region Site
 
     public static string SiteFarsiName = "برنامه تستی مدیریت توکن ها ";
-    public static string SiteAddress = "https://localhost:7158";
+    public static string SiteAddress = "https://localhost:7253";
     public static string merchant = "123456789";
 
     #endregion

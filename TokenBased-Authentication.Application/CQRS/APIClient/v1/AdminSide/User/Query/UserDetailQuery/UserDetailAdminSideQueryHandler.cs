@@ -1,4 +1,5 @@
-﻿using TokenBased_Authentication.Domain.DTO.AdminSide.User;
+﻿using TokenBased_Authentication.Application.StaticTools;
+using TokenBased_Authentication.Domain.DTO.AdminSide.User;
 using TokenBased_Authentication.Domain.IRepositories.User;
 
 namespace TokenBased_Authentication.Application.CQRS.APIClient.v1.AdminSide.User.Query.UserDetailQuery;
@@ -25,11 +26,12 @@ public record UserDetailAdminSideQueryHandler : IRequestHandler<UserDetailAdminS
         return new UserDetailAdminSideDTO()
         {
             UserId = user.Id,
-            Avatar = user.Avatar,
+            Avatar = $"{ FilePaths.UserAvatarPathThumb}/{user.Avatar}",
             IsActive = user.IsActive,
             IsAdmin = user.IsAdmin,
             Mobile = user.Mobile,
             Username = user.Username,
+            UserRoles = await _userQueryRepository.ListOfUserRoles(request.UserId , cancellationToken)
         };
     }
 }
