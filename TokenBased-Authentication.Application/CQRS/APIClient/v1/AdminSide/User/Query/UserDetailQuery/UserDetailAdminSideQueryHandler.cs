@@ -26,7 +26,7 @@ public record UserDetailAdminSideQueryHandler : IRequestHandler<UserDetailAdminS
         return new UserDetailAdminSideDTO()
         {
             UserId = user.Id,
-            Avatar = $"{ FilePaths.UserAvatarPathThumb}/{user.Avatar}",
+            Avatar = $"{FilePaths.SiteAddress}{ FilePaths.UserAvatarPathThumb}/{user.Avatar}",
             IsActive = user.IsActive,
             IsAdmin = user.IsAdmin,
             Mobile = user.Mobile,

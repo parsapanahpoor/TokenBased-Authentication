@@ -175,7 +175,11 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseStaticFiles();
+
         app.UseRouting();
+
+        app.UseCors("ApiCORS");
 
         app.UseAuthentication();
 
